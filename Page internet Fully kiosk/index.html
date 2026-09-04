@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAMF - Agence de Joué lès Tours</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #003DA5 0%, #001a4d 100%);
+            color: #333333;
+            overflow: auto;
+            height: auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(90deg, #003DA5 0%, #002570 100%);
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 4px solid #FF0000;
+            min-height: 90px;
+            flex-shrink: 0;
+        }
+
+        .header-left {
+            flex: 1.2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #ff0000;
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+
+        .logo-container {
+            width: 65px;
+            height: 65px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .logo-container img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .header-info {
+            flex: 1;
+        }
+
+        .header-title {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-subtitle {
+            font-size: 15px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.95;
+            margin-top: 2px;
+        }
+
+        .header-right {
+            flex: 1;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .header-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #00d4ff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            text-align: center;
+            flex: 0.9;
+            min-width: 70px;
+        }
+
+        .header-label {
+            font-size: 12px;
+            opacity: 0.85;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-value {
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-value.time {
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .header-date {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .weather-icon {
+            font-size: 15px;
+        }
+
+        /* MAIN CONTAINER */
+        .main-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            grid-template-rows: auto auto;
+            gap: 15px;
+            padding: 15px;
+            height: 100%;
+        }
+
+        /* LEFT COLUMN */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: 100%;
+        }
+
+        /* RIGHT COLUMN */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* CARDS WRAPPER */
+        .cards-wrapper {
+            flex: 0 0 200px;
+            display: flex;
+            gap: 15px;
+            flex-direction: row;
+            min-height: 200px;
+        }
+
+        .card {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            transition: all 0.3s ease;
+            border-top: 6px solid #003DA5;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 61, 165, 0.3);
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #003DA5;
+            margin-bottom: 8px;
+        }
+
+        .card-location {
+            font-size: 15px;
+            font-weight: bold;
+            color: #FF0000;
+            background: rgba(255, 0, 0, 0.1);
+            padding: 6px 10px;
+            border-radius: 6px;
+            border-left: 4px solid #FF0000;
+            margin-bottom: 12px;
+        }
+
+        .service-list {
+            list-style: none;
+            flex: 1;
+        }
+
+        .service-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 10px;
+            color: #333;
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-item:hover {
+            color: #003DA5;
+            padding-left: 8px;
+        }
+
+        .service-item::before {
+            content: '▸ ';
+            color: #003DA5;
+            font-weight: bold;
+        }
+
+        .btn-more {
+            display: none;
+        }
+
+        .btn-more:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 61, 165, 0.4);
+        }
+
+        /* QR CODE SECTION */
+        .qr-section {
+            flex: 0 0 280px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            border-top: 6px solid #00D4FF;
+            min-height: 300px;
+        }
+
+        .qr-container {
+            width: 200px;
+            height: 200px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .qr-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .qr-text {
+            font-size: 25px;
+            font-weight: bold;
+            color: #003DA5;
+            text-align: center;
+        }
+
+        /* VIDEO SECTION - CLÉS POUR LE REDIMENSIONNEMENT */
+        .video-section {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            border-top: 6px solid #00d4ff;
+            height: 430px;                    /* ← HAUTEUR FIXE - CHANGEZ CETTE VALEUR */
+            flex-shrink: 0;                   /* ← IMPORTANT : Empêche le rétrécissement */
+            overflow: hidden;                 /* ← Important pour éviter le débordement */
+        }
+
+        .video-header {
+            text-align: center;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+        }
+
+        .video-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #003DA5;
+            margin-bottom: 3px;
+        }
+
+        .video-container {
+            flex: 1;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+            min-height: 300px;                /* ← CHANGEZ CETTE VALEUR */
+        }
+
+        .video-player {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-controls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
+            flex-shrink: 0;
+        }
+
+        .video-btn {
+            background: linear-gradient(135deg, #003DA5 0%, #002570 100%);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 9px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 61, 165, 0.2);
+        }
+
+        .video-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 61, 165, 0.4);
+        }
+
+        .video-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: #003DA5;
+            transform: scale(1.3);
+        }
+
+        /* BOTTOM CARDS */
+        .bottom-cards-container {
+            flex: 0 0 70px;
+            display: flex;
+            gap: 15px;
+            min-height: 70px;
+            flex-shrink: 0;
+        }
+
+        .bottom-card {
+            flex: 1;
+            background: linear-gradient(135deg, #ff0000 0%, #fc2d2dda 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(255, 0, 0, 0.3);
+            text-align: center;
+            border: 2px solid #003DA5;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bottom-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(255, 0, 0, 0.4);
+        }
+
+        .bottom-card-title {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .bottom-card-text {
+            font-size: 10px;
+            opacity: 0.95;
+            line-height: 1.3;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 40px;
+            border: none;
+            border-radius: 15px;
+            width: 85%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.3s ease;
+            border-top: 6px solid #003DA5;
+        }
+
+        .close-btn {
+            color: #003DA5;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #FF0000;
+        }
+
+        .modal-title {
+            color: #003DA5;
+            font-size: 28px;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        .modal-text {
+            color: #333333;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-left">
+            <div class="logo-container">
+                <img src="logo-veolia.png" alt="VAMF Logo">
+            </div>
+            <div class="header-info">
+                <div class="header-title">VAMF</div>
+                <div class="header-subtitle">Agence de Joué lès Tours</div>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="header-box">
+                <div class="header-label">Jour</div>
+                <div class="header-value" id="current-day">Lundi</div>
+                <div class="header-date" id="current-date">01/01/2024</div>
+            </div>
+
+            <div class="header-box time">
+                <div class="header-label">Heure</div>
+                <div class="header-value time" id="current-time">00:00:00</div>
+            </div>
+
+            <div class="header-box">
+                <div class="header-label">Météo</div>
+                <div class="weather-icon" id="weather-icon">🌤️</div>
+                <div class="header-value" id="weather-temp">20°C</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="main-container">
+        <!-- LEFT COLUMN -->
+        <div class="left-column">
+            <!-- CARDS SECTION - TOP LEFT -->
+            <div class="cards-wrapper">
+                <!-- SERVICE INSPECTION -->
+                <div class="card">
+                    <div class="card-title">Service ITV & Petits travaux</div>
+                    <div class="card-location">Aile gauche du bâtiment</div>
+                    <ul class="service-list">
+                        <li class="service-item" onclick="openModal('inspection1')">Expertise Réseau d'assainissement</li>
+                        <li class="service-item" onclick="openModal('inspection2')">Tous types de travaux</li>
+                    </ul>
+                </div>
+
+                <!-- SERVICE DÉCHETS -->
+                <div class="card">
+                    <div class="card-title">Service Déchets Dangereux</div>
+                    <div class="card-location">Aile droite du bâtiment</div>
+                    <ul class="service-list">
+                        <li class="service-item" onclick="openModal('danger1')">Récupération de l'amiante</li>
+                        <li class="service-item" onclick="openModal('danger2')">Collecte de déchets</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- QR CODE SECTION - BOTTOM LEFT -->
+            <div class="qr-section">
+                <div class="qr-container">
+                    <img src="qr-code.png" alt="QR Code Avis">
+                </div>
+                <div class="qr-text">Laisser un avis</div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right-column">
+            <!-- VIDEO SECTION - TOP RIGHT -->
+            <div class="video-section">
+                <div class="video-header">
+                    <div class="video-title">Découvrez nos services en action</div>
+                </div>
+                <div class="video-container">
+                    <video id="mainVideo" class="video-player" controls onended="nextVideoAuto()" muted autoplay>
+                        <source src="video1.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo HTML5
+                    </video>
+                </div>
+                <div class="video-dots">
+                    <span class="dot active" onclick="playVideo(0)"></span>
+                    <span class="dot" onclick="playVideo(1)"></span>
+                    <span class="dot" onclick="playVideo(2)"></span>
+                    <span class="dot" onclick="playVideo(3)"></span>
+                    <span class="dot" onclick="playVideo(4)"></span>
+                    <span class="dot" onclick="playVideo(5)"></span>
+                    <span class="dot" onclick="playVideo(6)"></span>
+                    <span class="dot" onclick="playVideo(7)"></span>
+                    <span class="dot" onclick="playVideo(8)"></span>
+                    <span class="dot" onclick="playVideo(9)"></span>
+                    <span class="dot" onclick="playVideo(10)"></span>
+                </div>
+                <div class="video-controls">
+                    <button class="video-btn" onclick="prevVideo()">← Précédent</button>
+                    <button class="video-btn" onclick="nextVideo()">Suivant →</button>
+                </div>
+            </div>
+
+            <!-- BOTTOM CARDS - BOTTOM RIGHT -->
+            <div class="bottom-cards-container">
+                <div class="bottom-card" onclick="openModal('bottom1')">
+                    <div class="bottom-card-title">📋 Service Caméra</div>
+                    <div class="bottom-card-text">Nos références !</div>
+                </div>
+                <div class="bottom-card" onclick="openModal('bottom2')">
+                    <div class="bottom-card-title">📋 Petits Travaux</div>
+                    <div class="bottom-card-text">Nos références !</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title" id="modal-title">Titre</h2>
+            <p class="modal-text" id="modal-text">Contenu</p>
+        </div>
+    </div>
+
+    <script>
+        // DATE ET HEURE
+        function updateDateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+            
+            // Afficher la date
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            document.getElementById('current-date').textContent = `${day}/${month}/${year}`;
+            
+            const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+            document.getElementById('current-day').textContent = days[now.getDay()];
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // MÉTÉO - VRAIE MÉTÉO DEPUIS INTERNET
+        function updateWeather() {
+            // Coordonnées de Joué-lès-Tours
+            const latitude = 47.3833;
+            const longitude = 0.6500;
+    
+            fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&timezone=Europe/Paris`)
+                .then(response => response.json())
+                .then(data => {
+                    const temp = Math.round(data.current.temperature_2m);
+                    const weatherCode = data.current.weather_code;
+            
+                    // Convertir le code météo en emoji
+                    let icon = '🌤️';
+                    if (weatherCode === 0) icon = '☀️';
+                    else if (weatherCode === 1 || weatherCode === 2) icon = '⛅';
+                    else if (weatherCode === 3) icon = '☁️';
+                    else if (weatherCode === 45 || weatherCode === 48) icon = '🌫️';
+                    else if (weatherCode >= 51 && weatherCode <= 67) icon = '🌧️';
+                    else if (weatherCode >= 71 && weatherCode <= 85) icon = '❄️';
+                    else if (weatherCode >= 80 && weatherCode <= 82) icon = '⛈️';
+            
+                    document.getElementById('weather-icon').textContent = icon;
+                    document.getElementById('weather-temp').textContent = temp + '°C';
+                })
+                .catch(error => {
+                    console.log('Erreur météo:', error);
+                    // Fallback si l'API ne répond pas
+                    document.getElementById('weather-icon').textContent = '🌤️';
+                    document.getElementById('weather-temp').textContent = '20°C';
+                });
+        }
+
+        setInterval(updateWeather, 1800000); // Mise à jour toutes les 30 minutes
+        updateWeather();
+
+
+        // VIDEO CAROUSEL - DÉFILEMENT À LA FIN DE LA VIDÉO
+        let currentVideoIndex = 0;
+        const videos = [
+            './video1.mp4',
+            './video2.mp4',
+            './video3.mp4',
+            './video4.mp4',
+            './video5.mp4',
+            './video6.mp4',
+            './video7.mp4',
+            './video8.mp4',
+            './video9.mp4',
+            './video10.mp4',
+            './video11.mp4'
+        ];
+
+        function playVideo(index) {
+            currentVideoIndex = index;
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+            const videoElement = document.getElementById('mainVideo');
+            videoElement.src = videos[index];
+    
+            // Ajouter muted pour permettre la lecture automatique
+            videoElement.muted = true;
+    
+            // Essayer de lancer la vidéo
+            const playPromise = videoElement.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Lecture automatique bloquée:', error);
+                });
+            }
+        }
+
+
+        function nextVideo() {
+            currentVideoIndex++;
+            if (currentVideoIndex >= videos.length) currentVideoIndex = 0;
+            playVideo(currentVideoIndex);
+        }
+
+        function prevVideo() {
+            currentVideoIndex--;
+            if (currentVideoIndex < 0) currentVideoIndex = videos.length - 1;
+            playVideo(currentVideoIndex);
+        }
+
+        // PASSE À LA VIDÉO SUIVANTE QUAND LA VIDÉO ACTUELLE EST TERMINÉE
+        function nextVideoAuto() {
+            nextVideo();
+        }
+
+        // Initialiser la première vidéo
+        playVideo(0);
+
+
+
+        // MODAL
+        const modalContent = {
+            'inspection1': { title: '📡 Expertise Réseau d\'Assainissement', text: 'Notre équipe d\'experts utilise les dernières technologies de diagnostic pour inspecter et analyser votre réseau d\'assainissement.' },
+            'inspection2': { title: '🛠️ Tous Types de Travaux', text: 'Nous réalisons tous types de travaux en lien avec l\'assainissement.' },
+            'danger1': { title: '🏗️ Récupération de l\'Amiante', text: 'Nous assurons la récupération sécurisée et conforme de l\'amiante.' },
+            'danger2': { title: '♻️ Collecte de Déchets', text: 'Nous proposons une collecte complète et sécurisée des déchets dangereux.' },
+            'bottom1': { title: '📋 Nos Références - Service Caméra', text: 'Découvrez nos réalisations.' },
+            'bottom2': { title: '📋 Nos Références - Petits Travaux', text: 'Consultez nos projets.' }
+        };
+
+        function openModal(contentKey) {
+            const modal = document.getElementById('modal');
+            const content = modalContent[contentKey];
+            document.getElementById('modal-title').textContent = content.title;
+            document.getElementById('modal-text').textContent = content.text;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
